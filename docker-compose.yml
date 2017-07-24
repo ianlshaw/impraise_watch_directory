@@ -1,21 +1,43 @@
+# Define the docker-compose version
 version: '3'
+
+# Start the global services key
 services:
 
+  # Define the first container, naming it 'sftp'
   sftp:
+
+    # Base this container on the atmoz/sftp image found on the docker hub
     image: atmoz/sftp
+
+    # Define volumes for sftp container, first we use a named volume, which is referenced later.
+    # The other two are host mount volumes, which refer to the keys used to authenticate with the sftp container.
     volumes:
         - data-volume:/home/foo/upload
         - /home/ubuntu/.ssh/impraise.key:/etc/ssh/ssh_host_rsa_key
         - /home/ubuntu/.ssh/impraise.key.pub:/etc/ssh/ssh_host_rsa_key.pub
+
+    # Map the container's port 22 to the host's 2222, to avoid conflict with other port mappings (sshd)
     ports:
         - "2222:22"
+
+    # Pass params into sftp container, as documented here: https://hub.docker.com/r/atmoz/sftp/
     command: foo:pass:1001
 
+  # Define the second container, named rb-filewatcher
   rb-filewatcher:
+
+    # Define the image from which it should be run, in this case, I've made one. The Dockerfile can be found in ./rb-filewatcher
+    # After having cloned this repo, you can use the command `docker build -t ianlshaw/rb-filewatcher ./rb-filewatcher` to create it.
     image: ianlshaw/rb-filewatcher
+
+    # This volume is the same as the sftp one, it is named and external, allowing sharing of data between containers.
     volumes:
       - data-volume:/opt/sftp-data
+
+    # Provide the runtime options for the filewatcher to operate, referencing the program copied into the image on build.
     command: ["ruby", "/opt/watch-directory.rb"]
 
+# Here we use the global volumes key to create and name a volume, it is referenced in both service containers above. This is what allows the sharing of directories between containers.
 volumes:
   data-volume:
