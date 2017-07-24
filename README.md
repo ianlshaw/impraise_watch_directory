@@ -2,7 +2,7 @@
 
 ### Ian L Shaw
 
-USAGE `docker build -t ianlshaw/rb-filewatcher ./rb-filewatcher`
+USAGE `docker build -t ianlshaw/rb-filewatcher ./rb-filewatcher`  
 `docker-compose up` 
 
 ### Paths of interest
