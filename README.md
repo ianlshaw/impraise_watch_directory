@@ -2,7 +2,8 @@
 
 ### Ian L Shaw
 
-USAGE `docker-compose up` 
+USAGE `docker build -t ianlshaw/rb-filewatcher ./rb-filewatcher`
+`docker-compose up` 
 
 ### Paths of interest
 - `/home/foo/upload` on container `sftp`
