@@ -1,0 +1,21 @@
+version: '3'
+services:
+
+  sftp:
+    image: atmoz/sftp
+    volumes:
+        - data-volume:/home/foo/upload
+        - /home/ubuntu/.ssh/impraise.key:/etc/ssh/ssh_host_rsa_key
+        - /home/ubuntu/.ssh/impraise.key.pub:/etc/ssh/ssh_host_rsa_key.pub
+    ports:
+        - "2222:22"
+    command: foo:pass:1001
+
+  rb-filewatcher:
+    image: ianlshaw/rb-filewatcher
+    volumes:
+      - data-volume:/opt/sftp-data
+    command: ["ruby", "/opt/watch-directory.rb"]
+
+volumes:
+  data-volume:
