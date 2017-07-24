@@ -14,8 +14,8 @@ services:
     # The other two are host mount volumes, which refer to the keys used to authenticate with the sftp container.
     volumes:
         - data-volume:/home/foo/upload
-        - /home/ubuntu/.ssh/impraise.key:/etc/ssh/ssh_host_rsa_key
-        - /home/ubuntu/.ssh/impraise.key.pub:/etc/ssh/ssh_host_rsa_key.pub
+        - /etc/ssh/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key
+        - /etc/ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub
 
     # Map the container's port 22 to the host's 2222, to avoid conflict with other port mappings (sshd)
     ports:
